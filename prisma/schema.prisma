@@ -17,7 +17,6 @@ model User {
   avatarUrl         String?
   about             String?     @db.VarChar(80)
   password          String
-  chatLikes         ChatLike[]
   chats             Chat[]
   participant1          ChatRoom[]         @relation("Participant1")
   participant2          ChatRoom[]         @relation("Participant2")
@@ -55,7 +54,7 @@ model Chat {
   createdAt  DateTime          @default(now()) @map("created_at")
   room       ChatRoom          @relation(fields: [roomId], references: [id], onDelete: Cascade)
   sender     User              @relation(fields: [senderId], references: [id])
-  likes      ChatLike[]
+  liked      Boolean           @default(false)
   
   @@map("chats")
 }
@@ -68,14 +67,4 @@ model ChatRoom {
   participant2      User      @relation("Participant2", fields: [participant2Id], references: [id], onDelete: Cascade)
   chat              Chat[]
   @@map("chat_room")
-}
-
-model ChatLike {
-  id          Int     @id
-  chatId      Int     @map("chat_id")
-  userId      Int     @map("user_id")
-  pressed     Boolean @default(false)
-  chat        Chat    @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  @@map("chat_likes")
 }
