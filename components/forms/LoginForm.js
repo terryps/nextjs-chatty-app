@@ -28,10 +28,10 @@ const LoginForm = () => {
     }
 
     return (
-        <div>
-            <h1>Chat App</h1>
-            <div>
-                <form onSubmit={handleSubmit}>
+        <div className="flex-col form-container">
+            <h1 className="logo">Chatty</h1>
+            <div className="flex-col form-wrapper">
+                <form className="flex-col form" onSubmit={handleSubmit}>
                     <label>
                         <input
                             type="text"
@@ -51,13 +51,13 @@ const LoginForm = () => {
                             required
                         />
                     </label>
-                    <span>{errorMessage}</span>
-                    <button>Log In</button>
+                    <span className="error">{errorMessage}</span>
+                    <button className="trns-all">Log In</button>
                 </form>
 
-                <div>
+                <div className="form-nav flex">
                     <span>Don't have an account?</span>
-                    <Link href="/signup">
+                    <Link href="/accounts/signup">
                         <a>Sign up</a>
                     </Link>
                 </div>

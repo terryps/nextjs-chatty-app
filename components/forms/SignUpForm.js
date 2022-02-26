@@ -2,36 +2,42 @@ import { useState } from "react";
 import Link from "next/link";
 const SignUpSuccess = ({username, loggedIn}) => {
     return (
-        <div>
-            <div>
-                <h2>welcome to chat app,</h2>
-                <h2>{ username }</h2>
-                <p>your account has been successfully created.</p>
+        <div className="flex-col form-container">
+            <div className="flex-col form-wrapper">
+                <div className="signup-done">
+                    <h3>welcome to chatty,</h3>
+                    <h3>{ username }</h3>
+                    <p className="m-t-20">Your account has been successfully created.</p>
+                </div>
+
+                <div className="form-nav m-t-20 txt-algn-ctr">
+                    <Link href="/">
+                        <a>{loggedIn ? "start" : "log in"}</a>
+                    </Link>
+                </div>
             </div>
-            <Link href="/">
-                <a>{loggedIn ? "start" : "log in"}</a>
-            </Link>
         </div>
     );
 }
 
-const SignUpForm = ({handleSubmit}) => {
+const SignUpForm = ({handleSubmit, errorMessage}) => {
     return (
-        <div>
-            <h1>Chat App</h1>
+        <div className="flex-col form-container">
+            <h1 className="logo">chatty</h1>
 
-            <div>
-                <form onSubmit={handleSubmit}>
+            <div className="flex-col form-wrapper">
+                <form className="flex-col form" onSubmit={handleSubmit}>
                     <label><input type="text" name="fullname" placeholder="Full Name" /></label>
                     <label><input type="text" name="username" placeholder="Username" required /></label>
                     <label><input type="password" name="password" placeholder="Password" autoComplete="off" autoCapitalize="off" required /></label>
-                    <button>Sign Up</button>
+                    <span className="error">{errorMessage}</span>
+                    <button className="trns-all">Sign Up</button>
                 </form>
 
-                <div>
+                <div className="form-nav flex">
                     <span>Have an account?</span>
                     <Link href="/">
-                        <a>Log In</a>
+                        <a>log in</a>
                     </Link>
                 </div>
             </div>
@@ -86,7 +92,7 @@ const SignUp = () => {
             {
                 signupDone ?
                     <SignUpSuccess username={username} loggedIn={loggedIn} /> :
-                    <SignUpForm handleSubmit={handleSubmit} />
+                    <SignUpForm handleSubmit={handleSubmit} errorMessage={errorMessage} />
             }
         </>
     );

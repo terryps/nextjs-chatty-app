@@ -9,7 +9,7 @@ const SETTINGS = {
     HEIGHT_OFFSET : 32,
 };
 
-const TextForm = ({ hostInfo, userId, updateLog }) => {
+const TextForm = ({ userId, chatRoomId, updateLog }) => {
     const router = useRouter();
 
     const [textInput, setTextInput] = useState("");
@@ -33,23 +33,23 @@ const TextForm = ({ hostInfo, userId, updateLog }) => {
 
         textareaRef.current.addEventListener("keypress", handleEnter,false);
 
-        router.events.on("routeChangeStart", handleRouteChange, false);    
+        router.events.on("routeChangeStart", handleRouteChange);
 
         return () => {
-            textareaRef?.current.removeEventListener("keypress", handleEnter, false);
+            router.events.off("routeChangeStart", handleRouteChange);
         }
     }, []);
 
     const handleSend = async (e) => {
         e.preventDefault();
 
-        fetch("api/chat/send", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        fetch("api/chat/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+                chatRoomId: chatRoomId,
                 content: textInput,
                 senderId: userId,
-                recipientId: hostInfo.id,
             }),
             }).then(async response => {
                 const data = await response.json();
@@ -84,7 +84,7 @@ const TextForm = ({ hostInfo, userId, updateLog }) => {
     };
 
   return (
-    <form onSubmit={handleSend}>
+    <form onSubmit={handleSend} className="textform">
         <textarea
             placeholder="Add a comment..."
             autoComplete="off"
