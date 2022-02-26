@@ -1,0 +1,35 @@
+.lst-btn {
+    padding: 14px 0 14px 4px;
+    height: 94px;
+    border-bottom: 0.5px solid #aaa;
+    cursor: pointer;
+}
+
+.lst-avatar {
+    min-width: 72px;
+    width: fit-content;
+    height: fit-content;
+
+    span {
+        display: inline-block;
+        width: 48px;height: 48px;
+        border-radius: 50%;
+        background-color: rgb(219, 105, 146);
+    }
+}
+
+.lst-prof {
+    flex: auto 1 1;
+    font-size: 14px;
+    line-height: 22px;
+
+    h3 {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+.friend-lst-item:hover {
+    background-color: #f7d2e0;
+    opacity: 0.8;
+}

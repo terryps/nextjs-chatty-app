@@ -1,0 +1,26 @@
+.controller {
+    margin-top: 20px;
+    border-top: 0.5px solid #aaa;
+    border-bottom: 0.5px solid #aaa;
+
+    label {
+        flex: 1;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 18px;
+        line-height: 22px;
+        text-transform: capitalize;
+        cursor: pointer;
+    }
+
+    input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+}
+
+.selected {
+    color: rgb(235, 84, 139);
+    background-color: #f7d2e0;
+}
