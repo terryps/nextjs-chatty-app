@@ -13,14 +13,26 @@ export default async function handler(req, res) {
                         ],
                     },
                 });
+
+                let roomId = chatRoom[0]?.id;
+                if(chatRoom.length < 1) {
+                    const createChatRoom = await prisma.chatRoom.create({
+                        data: {
+                            participant1Id: id1,
+                            participant2Id: id2,
+                        },
+                    });
+                    roomId = createChatRoom.id;
+                }
+
                 const chatLog = await prisma.chat.findMany({
-                    where: { roomId: chatRoom?.id },
+                    where: { roomId: roomId },
                     orderBy: {
                         createdAt: "asc",
                     },
                 });
 
-                return res.status(200).json({ chatData: chatLog });
+                return res.status(200).json({ chatRoomId: roomId, chatData: chatLog });
             } catch(err) {
                 return res.status(500).json({ message: "Internal Server Error"});
             }
