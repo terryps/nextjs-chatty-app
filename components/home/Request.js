@@ -1,3 +1,5 @@
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
@@ -9,13 +11,18 @@ const Request = ({ userId }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const [reload, setReload] = useState(false);
 
     const [userToAdd, setUserToAdd] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [showError, setShowError] = useState(false);
 
+    console.log("request")
+
+
     useEffect(() => {
         setLoading(true);
+
         fetch("http://localhost:3000/api/requests", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -30,10 +37,11 @@ const Request = ({ userId }) => {
             setRequestList(data.requestData);
         }).catch(err => {
             setError(true);
+            setReload(false);
         }).finally(() => {
-            setLoading(false)
+            setLoading(false);
         });
-    }, []);
+    }, [reload]);
 
     const handleSubmit = async (e) => {
         if(e.key === "Enter") {
@@ -111,14 +119,25 @@ const Request = ({ userId }) => {
 
     if(error) {
         return (
-            <div>
-                <p>Failed to load request list. Press reload.</p>
+            <div className="error">
+                <button onClick={()=>setReload(true)}>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </button>
+                <span>Couldn't load request list.</span>
             </div>
         )
     }
 
     else if(loading) {
-        return (<></>);
+        return (
+            <div className="loading">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        );
     }
 
     else {
@@ -139,20 +158,22 @@ const Request = ({ userId }) => {
                     <ul>
                         {
                             requestList.map(requester =>
-                                <li key={requester.id} className="flex-row lst-btn">
-                                    <div className="lst-avatar"><span></span></div>
-                                    <div className="flex-col lst-prof">
+                                <li key={requester.id} className="flex-row lst-item">
+                                    <div className="avatar m-wd-72">
+                                        <Image src="/static/avatars/4.png" width={48} height={48} />
+                                    </div>
+                                    <div className="lst-prof">
                                         <h3>{requester.username}</h3>
                                         <p>{requester.fullname}</p>
                                     </div>
                                     <div className="flex-row req-btns">
                                         <button onClick={e=>handleAdd(e, requester.id)}>
-                                            <svg className="w-20 h-20" fill="none" stroke="#333" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <svg fill="none" stroke="#333" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                                             </svg>
                                         </button>
                                         <button onClick={e=>handleDelete(e, requester.id)}>
-                                            <svg className="w-20 h-20" fill="none" stroke="#333" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <svg fill="none" stroke="#333" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                             </svg>
                                         </button>
