@@ -18,34 +18,34 @@ const Home = ({ isLoggedIn }) => {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(store => authenticate(async (context) => {
-  const { req } = context;
+    const { req } = context;
 
-  const userId = req?.cookieUserId;
+    const userId = req?.cookieUserId;
 
-  if(!userId) {
-    return { props: { isLoggedIn: false, } };
-  }
-
-  try {
-    const response = await fetch("http://localhost:3000/api/user", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({userId: userId}),
-    });
-    const data = await response.json();
-
-    if(!response.ok) {
-      throw data.message;
+    if(!userId) {
+        return { props: { isLoggedIn: false, } };
     }
-    const { userData } = data;
-    store.dispatch(setUserId(userId));
-    store.dispatch(setLoggedIn(true));
-    store.dispatch(setUserInfo(userData));
 
-    return { props: { isLoggedIn: true } };
-  } catch(err) {
-    return { props: { isLoggedIn: false } };
-  }
+    try {
+        const response = await fetch("http://localhost:3000/api/user", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({userId: userId}),
+        });
+        const data = await response.json();
+
+        if(!response.ok) {
+            throw data.message;
+        }
+        const { userData } = data;
+        store.dispatch(setUserId(userId));
+        store.dispatch(setLoggedIn(true));
+        store.dispatch(setUserInfo(userData));
+
+        return { props: { isLoggedIn: true } };
+    } catch(err) {
+        return { props: { isLoggedIn: false } };
+    }
 }));
 
 export default Home;
