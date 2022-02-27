@@ -1,8 +1,10 @@
+import Image from "next/image";
+
 export const AddFriendModal = ({ userInfo, handleAdd, handleClose }) => {
     return (
         <div className="flex-col modal-wrapper">
             <div className="flex-col modal-content">
-                <span className="modal-img"></span>
+                <Image className="modal-img" src="/static/avatars/1.png" width={48} height={48} />
                 <h3>{userInfo.username}</h3>
                 <p>{userInfo.fullname}</p>
             </div>
@@ -24,8 +26,8 @@ export const MessageModal = ({children, type, handleClose}) => {
     );
 }
 
-const BackDrop = () => {
-    return <div className="backdrop"></div>;
+const BackDrop = ({onClick}) => {
+    return <div onClick={onClick} className="backdrop"></div>;
   }
 
 export const Modal = ({ children, modalIsOpen, handleClose }) => {
