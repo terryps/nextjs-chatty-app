@@ -1,26 +1,17 @@
 .prof {
     padding: 0 4px;
 }
-.avatar {
-    min-width: 78px;
-    width: fit-content;
-    height: fit-content;
-
-    span {
-        display: inline-block;
-        width: 54px;height: 54px;
-        border-radius: 50%;
-        background-color: rgb(219, 105, 146);
-    }
-}
 
 .prof-top {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     margin-bottom: 10px;
 
     h2 {
         margin-right: 20px;
         font-size: 24px;
+        font-weight: 600;
         line-height: 30px;
     }
 }
@@ -31,11 +22,9 @@
     padding: 8px 12px;
     border: 0 solid #fff;
     border-radius: 5px;
-    font-size: 14px;
     line-height: 18px;
     background-color: rgb(44, 107, 175);
     color: #fff;
-    cursor: pointer;
 
     &:hover {
         background-color: rgb(108, 168, 202);
@@ -43,7 +32,8 @@
 }
 
 .prof-bottom {
-    font-size: 14px;
+    display: flex;
+    flex-direction: column;
     line-height: 18px;
     word-break: break-all;
 }

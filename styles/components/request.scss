@@ -30,8 +30,6 @@
         font-weight: 500;
         color: rgb(44, 107, 175);
 
-        cursor: pointer;
-
         &:hover {
             color: rgb(108, 168, 202);
         }
@@ -48,4 +46,6 @@
             opacity: 0.5;
         }
     }
+
+    svg { width: 20px;height: 20px; }
 }

@@ -1,4 +1,6 @@
 .controller {
+    display: flex;
+    flex-direction: row;
     margin-top: 20px;
     border-top: 0.5px solid #aaa;
     border-bottom: 0.5px solid #aaa;
@@ -11,6 +13,10 @@
         line-height: 22px;
         text-transform: capitalize;
         cursor: pointer;
+
+        &:hover {
+            background-color: #f7d2e0;
+        }
     }
 
     input {
@@ -21,6 +27,5 @@
 }
 
 .selected {
-    color: rgb(235, 84, 139);
-    background-color: #f7d2e0;
+    color: rgb(219, 105, 146);
 }

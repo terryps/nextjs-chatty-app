@@ -1,6 +1,9 @@
 .chat-container {
     flex: 1 1 auto;
 
+    display: flex;
+    flex-direction: column-reverse;
+
     ul {
         height: 100%;
     }
@@ -9,18 +12,6 @@
     display: flex;
     margin: 10px 0;
     padding: 0 10px;
-}
-
-.chat-avatar {
-    width: fit-content;
-    height: fit-content;
-    min-width: 56px;
-    span {
-        display: inline-block;
-        width: 42px;height: 42px;
-        border-radius: 50%;
-        background-color: #333;
-    }
 }
 
 .chat-content {
@@ -56,6 +47,8 @@
 }
 
 .chat-nav {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     padding-bottom: 12px;
     border-bottom: 0.5px solid #aaa;
@@ -74,18 +67,6 @@
 
     h3 { line-height: 24px;}
     span { line-height: 18px;}
-}
-
-.chat-nav-avatar {
-    width: fit-content;
-    height: fit-content;
-    min-width: 64px;
-    span {
-        display: inline-block;
-        width: 48px;height: 48px;
-        border-radius: 50%;
-        background-color: #333;
-    }
 }
 
 .heart {
