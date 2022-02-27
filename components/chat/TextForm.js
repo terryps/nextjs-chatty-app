@@ -9,11 +9,10 @@ const SETTINGS = {
     HEIGHT_OFFSET : 32,
 };
 
-const TextForm = ({ userId, chatRoomId, updateLog }) => {
+const TextForm = ({ userId, chatRoomId, updateLog, showError }) => {
     const router = useRouter();
 
     const [textInput, setTextInput] = useState("");
-    const [error, setError] = useState(false);
 
     const [rows, setRows] = useState(SETTINGS.MIN_ROWS);
     const submitButton = useRef(null);
@@ -58,8 +57,8 @@ const TextForm = ({ userId, chatRoomId, updateLog }) => {
                 }
                 updateLog(data.newChat);
                 setTextInput("");
-            }).catch(e => {
-                setError(true);
+            }).catch(err => {
+                showError(err);
         });
     }
 
