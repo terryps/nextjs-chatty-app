@@ -5,12 +5,12 @@ import Request from "./Request";
 
 const Controller = ({ option, handleChange }) => {
     return (
-        <div className="flex-row controller" onChange={handleChange}>
-            <label className={`${option==="friends" && "selected" }`}>
+        <div className="controller" onChange={handleChange}>
+            <label className={`${option==="friends" && "selected" } trns-all`}>
                 <input type="radio" name="section" value="friends" defaultChecked />
                 friends
             </label>
-            <label className={`${option==="requests" && "selected" }`}>
+            <label className={`${option==="requests" && "selected" } trns-all`}>
                 <input type="radio" name="section" value="requests" />
                 requests
             </label>
@@ -20,6 +20,7 @@ const Controller = ({ option, handleChange }) => {
 
 const HomeSection = () => {
     const [selectedOption, setSelectedOption] = useState("friends");
+    console.log("====home====")
 
     return (
         <div className="container">
