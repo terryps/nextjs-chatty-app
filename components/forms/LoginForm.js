@@ -28,10 +28,10 @@ const LoginForm = () => {
     }
 
     return (
-        <div className="flex-col form-container">
+        <div className="form-container">
             <h1 className="logo">Chatty</h1>
-            <div className="flex-col form-wrapper">
-                <form className="flex-col form" onSubmit={handleSubmit}>
+            <div className="form-wrapper">
+                <form className="form" onSubmit={handleSubmit}>
                     <label>
                         <input
                             type="text"
@@ -51,14 +51,14 @@ const LoginForm = () => {
                             required
                         />
                     </label>
-                    <span className="error">{errorMessage}</span>
+                    <span className="form-error">{errorMessage}</span>
                     <button className="trns-all">Log In</button>
                 </form>
 
                 <div className="form-nav flex">
                     <span>Don't have an account?</span>
                     <Link href="/accounts/signup">
-                        <a>Sign up</a>
+                        <a>sign up</a>
                     </Link>
                 </div>
             </div>
