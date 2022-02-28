@@ -22,9 +22,10 @@
     padding: 8px 12px;
     border: 0 solid #fff;
     border-radius: 5px;
-    line-height: 18px;
     background-color: rgb(44, 107, 175);
+    line-height: 18px;
     color: #fff;
+    text-transform: capitalize;
 
     &:hover {
         background-color: rgb(108, 168, 202);
