@@ -26,6 +26,7 @@ export default async function handler(req, res) {
                 
                 return res.status(200).json({ requestData: requesterData });
             } catch(err) {
+                console.log(err.message)
                 return res.status(500).json({ message: "Internal Server Error" });
             }
         default:
