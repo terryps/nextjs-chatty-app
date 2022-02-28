@@ -10,22 +10,22 @@ export default async function handler(req, res) {
                 });
 
                 if(search?.length > 0) {
-                    throw ({ message: "This username isn't available. Please try another.", statusCode: 409 });
+                    return res.status(409).json({ message: "This username isn't available. Please try another." });
                 }
 
                 const password = await hash(req.body.password, 10);
                 const user = await prisma.user.create({
                     data: {
-                        ...req.body,
+                        fullname: req.body.fullname,
+                        username: req.body.username,
                         password: password,
                     },
                 });
                 return res.status(200).json({ message: "Success" });
             } catch(err) {
-                const code = err.statusCode ? err.statusCode : 500;
-                return res.status(code).json({ message: err.message });
+                return res.status(500).json({ message: "Internal Server Error"});
             }
         default:
-            return res.status(405).end(`Method ${req.method} is not allowed.`);
+            res.status(405).end(`Method ${req.method} is not allowed.`);
     }
 }
