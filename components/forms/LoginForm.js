@@ -37,6 +37,7 @@ const LoginForm = () => {
                             type="text"
                             name="username"
                             placeholder="Username"
+                            minLength={8}
                             maxLength={40}
                             autoCapitalize="off"
                             required
@@ -47,7 +48,8 @@ const LoginForm = () => {
                             type="password"
                             name="password"
                             placeholder="Password"
-                            maxLength={40}
+                            minLength={4}
+                            maxLength={80}
                             required
                         />
                     </label>
