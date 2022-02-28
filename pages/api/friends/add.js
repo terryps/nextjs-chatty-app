@@ -4,13 +4,7 @@ export default async function handler(req, res) {
     switch (req.method) {
         case "POST":
             try {
-                const {userId, config} = req.body;
-
-                // find user id to add
-                const { id: userIdToAdd, username: usernameToAdd } = await prisma.user.findUnique({
-                    where: config,
-                    select: { id: true, username: true },
-                });
+                const {userId, userIdToAdd} = req.body;
                 
                 if(!userIdToAdd) {
                     return res.status(500).json({ message: "User Not Found."});
@@ -20,15 +14,15 @@ export default async function handler(req, res) {
                     where: { userId: userId, friendId: userIdToAdd, },
                 });
                 if(checkFriendship?.length > 0) {
-                    return res.status(200).json({ id: userIdToAdd, message: "Success" });
+                    return res.status(200).json({ message: "Success" });
                 }
 
-                // check friendship already exists
+                // check friendship request already exists
                 const check = await prisma.friendRequest.findMany({
                     where: { requesterId: userId, addresseeId: userIdToAdd, },
                 });
                 if(check.length > 0) {
-                    return res.status(200).json({ id: userIdToAdd, message: "Success" });
+                    return res.status(200).json({ message: "Success" });
                 }
                 
                 const checkRequest = await prisma.friendRequest.findMany({
@@ -37,7 +31,6 @@ export default async function handler(req, res) {
                         addresseeId: userId,
                     },
                 });
-                // console.log("find request : ", checkRequest);
 
                 if(checkRequest.length > 0) {
                     const createFriendShip = await prisma.friendship.create({
@@ -46,14 +39,12 @@ export default async function handler(req, res) {
                             friendId: userIdToAdd,
                         },
                     });
-                    // console.log("create friendship : ", createFriendShip);
                     const oppositeFriendShip = await prisma.friendship.create({
                         data:  {
                             userId: userIdToAdd,
                             friendId: userId,
                         },
                     });
-                    // console.log("create opposite friendship : ", oppositeFriendShip);
                     const deleteRequests = await prisma.friendRequest.deleteMany({
                         where: {
                             OR: [
@@ -68,9 +59,8 @@ export default async function handler(req, res) {
                             ],
                         },
                     });
-                    // console.log("delete accepted requests : ", deleteRequests);
 
-                    return res.status(200).json({ id: userIdToAdd, message: `Added ${usernameToAdd} as friend.` });
+                    return res.status(200).json({ message: "Success" });
                 } else {
                     const createRequest = await prisma.friendRequest.create({
                         data: {
@@ -78,9 +68,7 @@ export default async function handler(req, res) {
                             addresseeId: userIdToAdd,
                         },
                     });
-                    // console.log("create request : ", createRequest);
-
-                    return res.status(200).json({ id: userIdToAdd, message: `Sent friend request to ${usernameToAdd}.`});
+                    return res.status(200).json({ message: "Success" });
                 }
                 
             } catch(err) {
