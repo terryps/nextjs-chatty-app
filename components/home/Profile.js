@@ -11,7 +11,7 @@ const Profile = ({ userInfo }) => {
             <div className="flex-col">
                 <div className="prof-top">
                     <h2 className="ellipsis">{userInfo.username}</h2>
-                    <button className="prof-edit trns-all">Edit Profile</button>
+                    <button className="prof-edit trns-all">edit profile</button>
                 </div>
 
                 <div className="prof-bottom">

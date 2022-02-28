@@ -2,6 +2,7 @@ import { useState } from "react";
 import Profile from "./Profile";
 import FriendList from "./FriendList";
 import Request from "./Request";
+import { MessageModal } from "components/modals/Modal";
 
 const Controller = ({ option, handleChange }) => {
     return (
@@ -29,11 +30,8 @@ const HomeSection = () => {
                 option={selectedOption}
                 handleChange={(e)=>setSelectedOption(e.target.value)}
             />
-            {
-                selectedOption==="friends" ?
-                    <FriendList /> :
-                    <Request />
-            }
+            { selectedOption==="friends" ? <FriendList /> : <Request /> }
+            <MessageModal />
         </div>
     );
 }

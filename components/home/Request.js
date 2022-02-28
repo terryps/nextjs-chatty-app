@@ -1,24 +1,18 @@
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import { Modal, AddFriendModal, MessageModal } from "../modals/Modal";
+import { AddFriendModal } from "../modals/Modal";
+import { showMessageModal, showAddFriendModal } from "redux/actions/modalActions";
 
-const Request = ({ userId }) => {
+const Request = ({ userId, userToAdd, showMessageModal, showAddFriendModal }) => {
     const [requestList, setRequestList] = useState([]);
     const [textInput, setTextInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
     const [reload, setReload] = useState(false);
 
-    const [userToAdd, setUserToAdd] = useState(null);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [showError, setShowError] = useState(false);
-
     console.log("request")
-
 
     useEffect(() => {
         setLoading(true);
@@ -55,12 +49,9 @@ const Request = ({ userId }) => {
                 if(!response.ok) {
                     throw data.message;
                 }
-    
-                setUserToAdd(data.userData);
-                setModalIsOpen(true);
+                showAddFriendModal(data.userData);
             }).catch(err => {
-                setErrorMessage(err);
-                setShowError(true);
+                showMessageModal("error", err)
             });
 
             setTextInput("");
@@ -69,29 +60,24 @@ const Request = ({ userId }) => {
 
     const handleAdd = async (e, id) => {
         e.preventDefault();
-
-        const config = !!id ? { id: id } : { username : userToAdd?.username };
         
+        const userIdToAdd = !!id ? id : userToAdd?.id;
         fetch("api/friends/add", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 userId: userId,
-                config: config,
+                userIdToAdd: userIdToAdd,
             }),
         }).then(async response => {
             const data = await response.json();
             if(!response.ok) {
                 throw data.message;
             }
-            setRequestList(requestList.filter(item => item.id!==data.id));
+            setRequestList(requestList.filter(el => el.id!==userIdToAdd));
             setTextInput("");
         }).catch(err => {
-            setErrorMessage(err);
-            setShowError(true);
-        }).finally(() => {
-            setModalIsOpen(false);
-            setUserToAdd(null);
+            showMessageModal("error", err);
         });
     };
 
@@ -112,8 +98,7 @@ const Request = ({ userId }) => {
             }
             setRequestList(requestList.filter(item => item.id!==id));
         }).catch(err => {
-            setErrorMessage(err);
-            setShowError(true);
+            showMessageModal("error", err);
         });
     }
 
@@ -184,18 +169,13 @@ const Request = ({ userId }) => {
                     </ul>
                 </div>
 
-                <Modal modalIsOpen={modalIsOpen} handleClose={()=>setModalIsOpen(false)}>
-                    <AddFriendModal userInfo={userToAdd} handleAdd={handleAdd} handleClose={()=>setModalIsOpen(false)} />
-                </Modal>
-
-                <Modal modalIsOpen={showError} handleClose={()=>{setShowError(false);setErrorMessage("");}}>
-                    <MessageModal type="Error" handleClose={()=>{setShowError(false);setErrorMessage("");}}>
-                        { errorMessage }
-                    </MessageModal>
-                </Modal>
+                <AddFriendModal handleAdd={handleAdd} />
             </div>
         );
     }
 }
 
-export default connect(state => state)(Request);
+export default connect(
+    state => ({ userId: state.userId, userToAdd: state.addFriendModal.userInfo }),
+    { showMessageModal, showAddFriendModal }
+)(Request);
