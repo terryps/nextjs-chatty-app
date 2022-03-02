@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { connect } from "react-redux";
 
 const SETTINGS = {
     MIN_ROWS : 1,
@@ -97,4 +96,4 @@ const TextForm = ({ chatRoomId, updateLog, showError }) => {
   );
 }
 
-export default TextForm;
+export default React.memo(TextForm);

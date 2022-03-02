@@ -1,7 +1,6 @@
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-
+import Image from "next/image";
 import { AddFriendModal } from "../modals/Modal";
 import { showMessageModal, showAddFriendModal } from "redux/actions/modalActions";
 
@@ -10,29 +9,29 @@ const Request = ({ userToAdd, showMessageModal, showAddFriendModal }) => {
     const [textInput, setTextInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [reload, setReload] = useState(false);
-
-    console.log("request")
 
     useEffect(() => {
-        setLoading(true);
+        const fetcher = async () => {
+            setLoading(true);
+            fetch("http://localhost:3000/api/requests")
+            .then(async response => {
+                const data = await response.json();
+    
+                if(!response.ok) {
+                    throw data.message;
+                }
+    
+                setRequestList(data.requestData);
+            }).catch(err => {
+                setError(true);
+                setReload(false);
+            }).finally(() => {
+                setLoading(false);
+            });
+        };
 
-        fetch("http://localhost:3000/api/requests")
-        .then(async response => {
-            const data = await response.json();
-
-            if(!response.ok) {
-                throw data.message;
-            }
-
-            setRequestList(data.requestData);
-        }).catch(err => {
-            setError(true);
-            setReload(false);
-        }).finally(() => {
-            setLoading(false);
-        });
-    }, [reload]);
+        fetcher();
+    }, []);
 
     const handleSubmit = async (e) => {
         if(e.key === "Enter") {
@@ -170,7 +169,7 @@ const Request = ({ userToAdd, showMessageModal, showAddFriendModal }) => {
     }
 }
 
-export default connect(
+export default React.memo(connect(
     state => ({ userToAdd: state.addFriendModal.userInfo }),
     { showMessageModal, showAddFriendModal }
-)(Request);
+)(Request));

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,11 +6,8 @@ const FriendList = () => {
     const [friendList, setFriendList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [reload, setReload] = useState(false);
-
-    console.log("friend")
-
-    useEffect(() => {
+    
+    const fetcher = async () => {
         setLoading(true);
         fetch("http://localhost:3000/api/friends/")
         .then(response => {
@@ -22,16 +19,19 @@ const FriendList = () => {
             setFriendList(data.friendsData);
         }).catch(err => {
             setError(true);
-            setReload(false);
         }).finally(() => 
             setLoading(false)
         );
-    }, [reload]);
+    };
+
+    useEffect(() => {
+        fetcher();
+    }, []);
 
     if(error) {
         return (
             <div className="error">
-                <button onClick={()=>setReload(true)}>
+                <button onClick={fetcher}>
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
@@ -79,4 +79,4 @@ const FriendList = () => {
     }
 }
 
-export default FriendList;
+export default React.memo(FriendList);

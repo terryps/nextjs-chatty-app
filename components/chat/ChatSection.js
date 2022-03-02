@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 import { showMessageModal } from "redux/actions/modalActions";
@@ -15,10 +14,8 @@ const ChatSection = ({ userInfo, hostInfo, showMessageModal }) => {
     const [chatLog, setChatLog] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const router = useRouter();
-    console.log("====chat====");
 
-    useEffect(() => {
+    const fetcher = async () => {
         setLoading(true);
         fetch("http://localhost:3000/api/chat", {
             method: "POST",
@@ -38,6 +35,10 @@ const ChatSection = ({ userInfo, hostInfo, showMessageModal }) => {
         }).finally(() => {
             setLoading(false);
         })
+    };
+
+    useEffect(() => {
+        fetcher();
     }, []);
 
     const handleLike = async (e, id, liked) => {
@@ -76,7 +77,7 @@ const ChatSection = ({ userInfo, hostInfo, showMessageModal }) => {
                     </Link>
                 </div>
                 <div className="error">
-                    <button onClick={()=>router.reload()}>
+                    <button onClick={fetcher}>
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </svg>
@@ -159,9 +160,9 @@ const ChatSection = ({ userInfo, hostInfo, showMessageModal }) => {
     );
 }
 
-export default connect(state => ({
+export default React.memo(connect(state => ({
     userInfo: state.userInfo,
     hostInfo: state.hostInfo,
 }), {
     showMessageModal
-})(ChatSection);
+})(ChatSection));

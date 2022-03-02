@@ -1,3 +1,4 @@
+import React from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
@@ -28,4 +29,4 @@ const Profile = ({ userInfo }) => {
     );
 }
 
-export default connect(state => ({ userInfo: state.userInfo }))(Profile);
+export default React.memo(connect(state => ({ userInfo: state.userInfo }))(Profile));

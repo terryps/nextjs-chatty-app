@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Profile from "./Profile";
 import FriendList from "./FriendList";
 import Request from "./Request";
@@ -21,7 +21,6 @@ const Controller = ({ option, handleChange }) => {
 
 const HomeSection = () => {
     const [selectedOption, setSelectedOption] = useState("friends");
-    console.log("====home====")
 
     return (
         <div className="container">
@@ -36,4 +35,4 @@ const HomeSection = () => {
     );
 }
 
-export default HomeSection;
+export default React.memo(HomeSection);
