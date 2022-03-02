@@ -1,14 +1,15 @@
 import prisma from "lib/PrismaClient";
+import { authenticate } from "middlewares/authenticate";
 
-export default async function handler(req, res) {
+const handler = authenticate(async (req, res) => {
     switch (req.method) {
         case "POST":
-            const { chatRoomId, content, senderId } = req.body;
+            const { chatRoomId, content } = req.body;
             try {
                 const newChat = await prisma.chat.create({
                     data: {
                         roomId: chatRoomId,
-                        senderId: senderId,
+                        senderId: req.cookieUserId,
                         content: content,
                     },
                 });
@@ -21,4 +22,6 @@ export default async function handler(req, res) {
         default:
             res.status(405).end(`Method ${req.method} is not allowed.`);
     }
-}
+});
+
+export default handler;

@@ -1,9 +1,11 @@
 import prisma from "lib/PrismaClient";
+import { authenticate } from "middlewares/authenticate";
 
-export default async function handler(req, res) {
+const handler = authenticate(async (req, res) => {
     switch (req.method) {
         case "POST":
-            const { id1, id2 } = req.body;
+            const id1 = req.cookieUserId;
+            const { hostId: id2 } = req.body;
             try {
                 const chatRoom = await prisma.chatRoom.findMany({
                     where: {
@@ -39,4 +41,6 @@ export default async function handler(req, res) {
         default:
             res.status(405).end(`Method ${req.method} is not allowed.`);
     }
-}
+});
+
+export default handler;

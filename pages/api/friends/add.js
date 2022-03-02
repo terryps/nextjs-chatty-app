@@ -1,10 +1,12 @@
 import prisma from "lib/PrismaClient";
+import { authenticate } from "middlewares/authenticate";
 
-export default async function handler(req, res) {
+const handler = authenticate(async (req, res) => {
     switch (req.method) {
         case "POST":
             try {
-                const {userId, userIdToAdd} = req.body;
+                const userId = req.cookieUserId;
+                const { userIdToAdd } = req.body;
                 
                 if(!userIdToAdd) {
                     return res.status(500).json({ message: "User Not Found."});
@@ -77,4 +79,6 @@ export default async function handler(req, res) {
         default:
             res.status(405).end(`Method ${req.method} is not allowed.`);
     }
-}
+});
+
+export default handler;

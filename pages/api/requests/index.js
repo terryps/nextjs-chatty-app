@@ -1,12 +1,12 @@
 import prisma from "lib/PrismaClient";
+import { authenticate } from "middlewares/authenticate";
 
-export default async function handler(req, res) {
+const handler = authenticate(async (req, res) => {
     switch (req.method) {
-        case "POST":
-            const userId = req.body.userId;
+        case "GET":
             try {
                 const {friendshipAddressee} = await prisma.user.findUnique({
-                    where: { id: userId },
+                    where: { id: req.cookieUserId },
                     include: {
                         friendshipAddressee: true,
                     },
@@ -21,15 +21,17 @@ export default async function handler(req, res) {
                         id: true,
                         fullname: true,
                         username: true,
+                        avatarUrl: true,
                     }
                 });
                 
                 return res.status(200).json({ requestData: requesterData });
             } catch(err) {
-                console.log(err.message)
                 return res.status(500).json({ message: "Internal Server Error" });
             }
         default:
             res.status(405).end(`Method ${req.method} is not allowed.`);
     }
-}
+});
+
+export default handler;

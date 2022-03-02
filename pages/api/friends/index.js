@@ -1,12 +1,13 @@
 import prisma from "lib/PrismaClient";
+import { authenticate } from "middlewares/authenticate";
 
-export default async function handler(req, res) {
+const handler = authenticate(async (req, res) => {
     switch(req.method) {
-        case "POST":
+        case "GET":
             try {
                 const friendship = await prisma.friendship.findMany({
                     where: {
-                        userId: req.body.userId,
+                        userId: req.cookieUserId,
                     },
                     select: { friendId: true, }
                 });
@@ -32,4 +33,6 @@ export default async function handler(req, res) {
         default:
             res.status(405).end(`Method ${req.method} is not allowed.`);
     }
-}
+});
+
+export default handler;
