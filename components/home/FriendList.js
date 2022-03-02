@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import Image from "next/image";
+import Link from "next/link";
 
 const FriendList = ({ userId }) => {
     const [friendList, setFriendList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [reload, setReload] = useState(false);
-    const router = useRouter();
 
     console.log("friend")
 
@@ -62,15 +61,19 @@ const FriendList = ({ userId }) => {
                 <ul>
                 {
                     friendList.map(friend => 
-                        <li key={friend.id} className="flex-row lst-item friend-lst-item trns-all" onClick={()=>router.push(`/${friend.username}`)}>
-                            <div className="avatar m-wd-72">
-                                <Image src="/static/avatars/5.png" width={48} height={48} />
-                            </div>
-                            <div className="lst-prof">
-                                <h3 className="ellipsis">{friend.username}</h3>
-                                <p className="ellipsis">{friend.fullname}</p>
-                                <span className="ellipsis">{friend.about}</span>
-                            </div>
+                        <li key={friend.id} className="lst-item friend-lst-item trns-all">
+                            <Link href={`/${friend.username}`}>
+                                <a className="flex-row">
+                                    <div className="avatar m-wd-72">
+                                        <Image src={`/static/avatars/${friend.avatarUrl}.png`} width={48} height={48} />
+                                    </div>
+                                    <div className="lst-prof">
+                                        <h3 className="ellipsis">{friend.username}</h3>
+                                        <p className="ellipsis">{friend.fullname}</p>
+                                        <span className="ellipsis">{friend.about}</span>
+                                    </div>
+                                </a>
+                            </Link>
                         </li>
                     )
                 }
@@ -80,4 +83,4 @@ const FriendList = ({ userId }) => {
     }
 }
 
-export default connect(state => state)(FriendList);
+export default connect(state => ({ userId: state.userId }))(FriendList);

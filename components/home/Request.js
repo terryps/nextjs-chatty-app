@@ -145,7 +145,7 @@ const Request = ({ userId, userToAdd, showMessageModal, showAddFriendModal }) =>
                             requestList.map(requester =>
                                 <li key={requester.id} className="flex-row lst-item">
                                     <div className="avatar m-wd-72">
-                                        <Image src="/static/avatars/4.png" width={48} height={48} />
+                                        <Image src={`/static/avatars/${friend.avatarUrl}.png`} width={48} height={48} />
                                     </div>
                                     <div className="lst-prof">
                                         <h3>{requester.username}</h3>

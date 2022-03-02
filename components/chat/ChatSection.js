@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { connect } from "react-redux";
-import TextForm from "./TextForm";
-import { Modal, MessageModal } from "components/modals/Modal";
-import { getTimeLapsed } from "lib/utils";
-import Image from "next/image";
 
-const ChatSection = ({ userId, hostInfo }) => {
+import { connect } from "react-redux";
+import { showMessageModal } from "redux/actions/modalActions";
+
+import Link from "next/link";
+import Image from "next/image";
+import TextForm from "./TextForm";
+import { MessageModal } from "components/modals/Modal";
+import { getTimeLapsed } from "lib/utils";
+
+const ChatSection = ({ userId, userInfo, hostInfo, showMessageModal }) => {
     const [chatRoomId, setChatRoomId] = useState(null);
     const [chatLog, setChatLog] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [showError, setShowError] = useState(false);
     const router = useRouter();
     console.log("====chat====");
 
@@ -39,11 +41,6 @@ const ChatSection = ({ userId, hostInfo }) => {
         })
     }, []);
 
-    const _handleErrorModal = (open, message) => {
-        setShowError(open);
-        setErrorMessage(message);
-    }
-
     const handleLike = async (e, id, liked) => {
         e.preventDefault();
 
@@ -63,19 +60,21 @@ const ChatSection = ({ userId, hostInfo }) => {
                 )
             );
         }).catch(err => {
-            _handleErrorModal(true, err);
+            showMessageModal("error", err);
         });
     }
 
     if(error) {
         return (
             <div className="container">
-                <div className="chat-nav">
-                    <button onClick={()=>router.replace("/")} className="trns-all">
-                        <svg fill="none" stroke="#333" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
+                <div className="top-nav">
+                    <Link href="/">
+                        <a className="trns-all">
+                            <svg fill="none" stroke="#333" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </a>
+                    </Link>
                 </div>
                 <div className="error">
                     <button onClick={()=>router.reload()}>
@@ -103,14 +102,16 @@ const ChatSection = ({ userId, hostInfo }) => {
 
     return (
         <div className="container">
-            <div className="chat-nav">
-                <button onClick={()=>router.push("/")} className="trns-all">
-                    <svg fill="none" stroke="#333" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
+            <div className="top-nav">
+                <Link href="/">
+                    <a className="trns-all">
+                        <svg fill="none" stroke="#333" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </a>
+                </Link>
                 <div className="avatar m-wd-64">
-                    <Image src="/static/avatars/2.png" width={48} height={48} />
+                    <Image src={`/static/avatars/${userInfo.avatarUrl}.png`} width={48} height={48} />
                 </div>
                 <div className="flex-col">
                     <h3>{hostInfo.username}</h3>
@@ -119,7 +120,7 @@ const ChatSection = ({ userId, hostInfo }) => {
             </div>
             
 
-            <div className="chat-container scroll-y">
+            <div className="chat-wrapper scroll-y">
                 <ul>
                     {
                         chatLog.map(el => (
@@ -127,7 +128,7 @@ const ChatSection = ({ userId, hostInfo }) => {
                                 {
                                     el.senderId!==userId && 
                                     <div className="avatar m-wd-56">
-                                        <Image src="/static/avatars/1.png" width={42} height={42} />
+                                        <Image src={`/static/avatars/${hostInfo.avatarUrl}.png`} width={42} height={42} />
                                     </div>
                                 }
 
@@ -152,16 +153,17 @@ const ChatSection = ({ userId, hostInfo }) => {
             <TextForm
                 chatRoomId={chatRoomId}
                 updateLog={(chat) => setChatLog(chatLog.concat(chat))}
-                showError={(message)=>_handleErrorModal(true, message)}
+                showError={(message)=>showMessageModal("error", message)}
             />
-
-            <Modal modalIsOpen={showError} handleClose={()=>_handleErrorModal(false, "")}>
-                <MessageModal type="Error" handleClose={()=>_handleErrorModal(false, "")}>
-                    { errorMessage }
-                </MessageModal>
-            </Modal>
+            <MessageModal />
         </div>
     );
 }
 
-export default connect(state => state)(ChatSection);
+export default connect(state => ({
+    userId: state.userId,
+    userInfo: state.userInfo,
+    hostInfo: state.hostInfo,
+}), {
+    showMessageModal
+})(ChatSection);
