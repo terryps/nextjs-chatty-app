@@ -3,17 +3,16 @@ import { authenticate } from "middlewares/authenticate";
 import wrapper from 'redux/index';
 import { setUserId, setLoggedIn, setUserInfo } from 'redux/actions/authenticateActions';
 
-import Layout from "components/common/Layout";
 import LoginForm from 'components/forms/LoginForm';
 import HomeSection from 'components/home/HomeSection';
 
 const Home = ({ isLoggedIn }) => {
     return (
-        <Layout>
+        <>
             { 
                 isLoggedIn ? <HomeSection /> : <LoginForm />
             }
-        </Layout>
+        </>
     );
 }
 

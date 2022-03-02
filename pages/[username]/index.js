@@ -2,13 +2,10 @@ import { authenticate } from "middlewares/authenticate";
 import wrapper from "redux/index";
 import { setUserInfo, setHostInfo, setUserId, setLoggedIn } from "redux/actions/authenticateActions";
 import ChatSection from "components/chat/ChatSection";
-import Layout from "components/common/Layout";
 
 const Chat = () => {
     return (
-        <Layout>
-            <ChatSection />
-        </Layout>
+        <ChatSection />
     );
 }
 
