@@ -31,7 +31,7 @@ const SignUpForm = ({handleSubmit, errorMessage}) => {
                     <label><input type="text" name="username" minLength={8} maxLength={40} placeholder="Username" required /></label>
                     <label><input type="password" name="password" minLength={4} maxLength={80} placeholder="Password" autoComplete="off" autoCapitalize="off" required /></label>
                     <span className="form-error">{errorMessage}</span>
-                    <button className="trns-all">Sign Up</button>
+                    <button className="form-btn trns-all">Sign Up</button>
                 </form>
 
                 <div className="form-nav flex">
