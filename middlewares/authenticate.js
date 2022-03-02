@@ -6,7 +6,7 @@ export const authenticate = (handler) => async (...args) => {
 
   const req = isApi ? args[0] : args[0].req;
   const res = isApi ? args[1] : args[0].res;
-
+  
   try {
     const accessToken = req.cookies.accessToken;
     
@@ -14,11 +14,11 @@ export const authenticate = (handler) => async (...args) => {
     req.cookieUserId = decoded.sub;
     
     return isApi ? handler(req, res) : handler(args[0]);
-  } catch(e) {
+  } catch(err) {
     if(isApi) {
       res.statusCode = 401;
       res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify({ message: e.message }));
+      res.end(JSON.stringify({ message: err.message }));
       return;
     }
 
