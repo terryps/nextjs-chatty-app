@@ -5,26 +5,6 @@ import {
     hideAddFriendModal,
 } from "redux/actions/modalActions";
 
-export const EditModal = () => {
-    return (
-        <>
-            <div className="">
-                <form>
-                    <label for="fullname">name</label>
-                    <input type="text" id="fullname" name="fullname" value="fullname" maxLength={40} />
-
-                    <label for="username">username</label>
-                    <input type="text" id="username" name="username" value="username" maxLength={40} />
-
-                    <label>
-                        <textarea />
-                    </label>
-                </form>
-            </div>
-        </>
-    );
-}
-
 export const AddFriendModal = ({ handleAdd }) => {
     const {open, userInfo} = useSelector(state=>state.addFriendModal);
     const dispatch = useDispatch();
