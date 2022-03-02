@@ -3,14 +3,14 @@
 
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 48px 0;
+    padding: 36px 56px 48px;
     width: 400px;
     border-radius: 40px;
     background-color: rgb(248, 229, 227);
 }
 
 .form-wrapper {
+    margin: auto;
     display: flex;
     flex-direction: column;
     max-width: 240px;
@@ -19,6 +19,7 @@
 }
 
 .logo {
+    margin: auto;
     font: 48px "Sigmar One", cursive;
     text-transform: capitalize;
 }
@@ -32,30 +33,29 @@
         height: 42px;
         margin-bottom: 10px;
         padding: 9px 12px 7px 16px;
-        overflow: hidden;
-        border: 0px solid #aaa;
         border-radius: 5px;
-        outline: none;
-        font-size: 12px;
-        text-overflow: ellipsis;
     }
 
-    button {
-        margin: 12px 0 20px;
-        width: 100%;height: 36px;
-        background-color: rgb(44, 107, 175);
-        border: 0 solid #fff;
-        border-radius: 5px;
-        outline: none;
-        font-size: 14px;
-        text-transform: capitalize;
-        color: #fff;
+    label { text-transform: capitalize; }
+}
 
-        &:hover {
-            background-color: rgb(108, 168, 202);
-        }
+.form-btn {
+    margin: 12px 0 20px;
+    width: 100%;height: 36px;
+    background-color: rgb(44, 107, 175);
+    border: 0 solid #fff;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+    text-transform: capitalize;
+    color: #fff;
+
+    &:hover {
+        background-color: rgb(108, 168, 202);
     }
 }
+
+.inactivated { background-color: rgb(108, 168, 202);}
 
 .form-error {
     font-size: 12px;
@@ -82,5 +82,62 @@
         font-weight: 600;
         line-height: 30px;
         text-transform: uppercase;
+    }
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+        padding: 8px 0 0 4px;
+        font-size: 12px;
+        color: #777;
+        text-transform: capitalize;
+    }
+    input {
+        margin-bottom: 12px;
+        height: 36px;
+        padding: 7px 16px 4px 4px;
+        border-bottom: 1px solid rgb(235, 84, 139);
+        background-color: transparent;
+        font-size: 14px;
+    }
+
+    textarea {
+        margin-top: 14px;
+        padding: 8px;
+        border: 0px solid #fff;
+        outline: none;
+        font-size: 14px;
+        line-height: 18px;
+        resize: none;
+    }
+
+    button { margin-top: 24px;}
+}
+
+.edit-avatar {
+    position: relative;
+    margin: auto;
+    margin-bottom: 4px;
+}
+
+.avatar-controller {
+    position: absolute;
+    top: 2px;right: -36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 76px;
+    button {
+        width: 36px;height: 36px;
+        margin: 0;
+        padding: 8px;
+        border-radius: 50%;
+        background-color: transparent;
+        &:hover {
+            svg{ stroke: rgb(235, 84, 139); }
+        }
     }
 }
