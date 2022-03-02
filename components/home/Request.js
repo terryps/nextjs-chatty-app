@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { AddFriendModal } from "../modals/Modal";
 import { showMessageModal, showAddFriendModal } from "redux/actions/modalActions";
 
-const Request = ({ userId, userToAdd, showMessageModal, showAddFriendModal }) => {
+const Request = ({ userToAdd, showMessageModal, showAddFriendModal }) => {
     const [requestList, setRequestList] = useState([]);
     const [textInput, setTextInput] = useState("");
     const [loading, setLoading] = useState(false);
@@ -17,11 +17,8 @@ const Request = ({ userId, userToAdd, showMessageModal, showAddFriendModal }) =>
     useEffect(() => {
         setLoading(true);
 
-        fetch("http://localhost:3000/api/requests", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId: userId }),
-        }).then(async response => {
+        fetch("http://localhost:3000/api/requests")
+        .then(async response => {
             const data = await response.json();
 
             if(!response.ok) {
@@ -66,7 +63,6 @@ const Request = ({ userId, userToAdd, showMessageModal, showAddFriendModal }) =>
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                userId: userId,
                 userIdToAdd: userIdToAdd,
             }),
         }).then(async response => {
@@ -89,7 +85,6 @@ const Request = ({ userId, userToAdd, showMessageModal, showAddFriendModal }) =>
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 requesterId: id,
-                addresseeId: userId,
             }),
         }).then(async response => {
             const data = await response.json();
@@ -145,7 +140,7 @@ const Request = ({ userId, userToAdd, showMessageModal, showAddFriendModal }) =>
                             requestList.map(requester =>
                                 <li key={requester.id} className="flex-row lst-item">
                                     <div className="avatar m-wd-72">
-                                        <Image src={`/static/avatars/${friend.avatarUrl}.png`} width={48} height={48} />
+                                        <Image src={`/static/avatars/${requester.avatarUrl}.png`} width={48} height={48} />
                                     </div>
                                     <div className="lst-prof">
                                         <h3>{requester.username}</h3>
@@ -176,6 +171,6 @@ const Request = ({ userId, userToAdd, showMessageModal, showAddFriendModal }) =>
 }
 
 export default connect(
-    state => ({ userId: state.userId, userToAdd: state.addFriendModal.userInfo }),
+    state => ({ userToAdd: state.addFriendModal.userInfo }),
     { showMessageModal, showAddFriendModal }
 )(Request);

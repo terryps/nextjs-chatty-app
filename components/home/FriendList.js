@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 
-const FriendList = ({ userId }) => {
+const FriendList = () => {
     const [friendList, setFriendList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -13,11 +12,8 @@ const FriendList = ({ userId }) => {
 
     useEffect(() => {
         setLoading(true);
-        fetch("http://localhost:3000/api/friends/", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({userId: userId}),
-        }).then(response => {
+        fetch("http://localhost:3000/api/friends/")
+        .then(response => {
             if(response.ok) {
                 return response.json();
             }
@@ -83,4 +79,4 @@ const FriendList = ({ userId }) => {
     }
 }
 
-export default connect(state => ({ userId: state.userId }))(FriendList);
+export default FriendList;

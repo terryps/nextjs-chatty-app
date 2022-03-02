@@ -9,7 +9,7 @@ const SETTINGS = {
     HEIGHT_OFFSET : 32,
 };
 
-const TextForm = ({ userId, chatRoomId, updateLog, showError }) => {
+const TextForm = ({ chatRoomId, updateLog, showError }) => {
     const router = useRouter();
 
     const [textInput, setTextInput] = useState("");
@@ -23,8 +23,8 @@ const TextForm = ({ userId, chatRoomId, updateLog, showError }) => {
         if(e.key==="Enter" && !e.shiftKey) {
             e.preventDefault();
             submitButton.current.click();
+            }
         }
-        };
 
         const handleRouteChange = () => {
             textareaRef.current.removeEventListener("keypress", handleEnter, false)
@@ -48,7 +48,6 @@ const TextForm = ({ userId, chatRoomId, updateLog, showError }) => {
             body: JSON.stringify({
                 chatRoomId: chatRoomId,
                 content: textInput,
-                senderId: userId,
             }),
             }).then(async response => {
                 const data = await response.json();
@@ -98,4 +97,4 @@ const TextForm = ({ userId, chatRoomId, updateLog, showError }) => {
   );
 }
 
-export default connect(state => state)(TextForm);
+export default TextForm;

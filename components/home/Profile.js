@@ -28,4 +28,4 @@ const Profile = ({ userInfo }) => {
     );
 }
 
-export default connect(state => state)(Profile);
+export default connect(state => ({ userInfo: state.userInfo }))(Profile);

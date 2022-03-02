@@ -14,7 +14,7 @@ export const AddFriendModal = ({ handleAdd }) => {
             <div className="modal-container">
                 <div className="flex-col modal-wrapper">
                     <div className="flex-col modal-content">
-                        <Image className="modal-img" src="/static/avatars/1.png" width={48} height={48} />
+                        <Image className="modal-img" src={`/static/avatars/${userInfo.avatarUrl}.png`} width={48} height={48} />
                         <h3>{userInfo.username}</h3>
                         <p>{userInfo.fullname}</p>
                     </div>

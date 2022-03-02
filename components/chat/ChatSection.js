@@ -10,7 +10,7 @@ import TextForm from "./TextForm";
 import { MessageModal } from "components/modals/Modal";
 import { getTimeLapsed } from "lib/utils";
 
-const ChatSection = ({ userId, userInfo, hostInfo, showMessageModal }) => {
+const ChatSection = ({ userInfo, hostInfo, showMessageModal }) => {
     const [chatRoomId, setChatRoomId] = useState(null);
     const [chatLog, setChatLog] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -24,8 +24,7 @@ const ChatSection = ({ userId, userInfo, hostInfo, showMessageModal }) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                id1: userId,
-                id2: hostInfo?.id,
+                hostId: hostInfo?.id,
             }),
         }).then(async response => {
             const data = await response.json();
@@ -121,12 +120,12 @@ const ChatSection = ({ userId, userInfo, hostInfo, showMessageModal }) => {
             
 
             <div className="chat-wrapper scroll-y">
-                <ul>
+                <ul className="flex-col">
                     {
                         chatLog.map(el => (
-                            <li key={el.id} className={`chat ${el.senderId===userId? "me" : "other"}`}>
+                            <li key={el.id} className={`chat ${el.senderId===userInfo.id? "me" : "other"}`}>
                                 {
-                                    el.senderId!==userId && 
+                                    el.senderId!==userInfo.id && 
                                     <div className="avatar m-wd-56">
                                         <Image src={`/static/avatars/${hostInfo.avatarUrl}.png`} width={42} height={42} />
                                     </div>
@@ -135,7 +134,7 @@ const ChatSection = ({ userId, userInfo, hostInfo, showMessageModal }) => {
                                 <span className="chat-content">{ el.content }</span>
                                 <div className="flex-col flex-end">
                                     {
-                                        el.senderId!==userId &&
+                                        el.senderId!==userInfo.id &&
                                         <button onClick={(e)=>handleLike(e,el.id,el.liked)} className="heart">
                                             <svg fill={el.liked? "#D8565B":"none"} stroke={el.liked ? "#D8565B":"#333"} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -161,7 +160,6 @@ const ChatSection = ({ userId, userInfo, hostInfo, showMessageModal }) => {
 }
 
 export default connect(state => ({
-    userId: state.userId,
     userInfo: state.userInfo,
     hostInfo: state.hostInfo,
 }), {
