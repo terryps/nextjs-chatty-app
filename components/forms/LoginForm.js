@@ -54,7 +54,7 @@ const LoginForm = () => {
                         />
                     </label>
                     <span className="form-error">{errorMessage}</span>
-                    <button className="trns-all">Log In</button>
+                    <button className="form-btn trns-all">log in</button>
                 </form>
 
                 <div className="form-nav flex">
