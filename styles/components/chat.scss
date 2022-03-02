@@ -1,11 +1,9 @@
-.chat-container {
+.chat-wrapper {
     flex: 1 1 auto;
 
-    display: flex;
-    flex-direction: column-reverse;
-
     ul {
-        height: 100%;
+        display: flex;
+        flex-direction: column-reverse;
     }
 }
 .chat {
@@ -44,29 +42,6 @@
     .chat-content {
         border: 0.5px solid #333;
     }
-}
-
-.chat-nav {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-bottom: 12px;
-    border-bottom: 0.5px solid #aaa;
-
-    button {
-        width: 40px;height: 40px;
-        padding: 8px;
-        margin-right: 12px;
-        border-radius: 50%;
-        background-color: transparent;
-        &:hover {
-            svg{ stroke: rgb(235, 84, 139); }
-            background-color: rgb(246, 214, 220);
-        }
-    }
-
-    h3 { line-height: 24px;}
-    span { line-height: 18px;}
 }
 
 .heart {
