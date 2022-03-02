@@ -1,10 +1,7 @@
 .chat-wrapper {
     flex: 1 1 auto;
-
-    ul {
-        display: flex;
-        flex-direction: column-reverse;
-    }
+    display: flex;
+    flex-direction: column-reverse;
 }
 .chat {
     display: flex;
