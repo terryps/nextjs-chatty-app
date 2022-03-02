@@ -1,7 +1,7 @@
 import { authenticate } from "middlewares/authenticate";
 
 import wrapper from 'redux/index';
-import { setUserId, setLoggedIn, setUserInfo } from 'redux/actions/authenticateActions';
+import { setLoggedIn, setUserInfo } from 'redux/actions/authenticateActions';
 
 import LoginForm from 'components/forms/LoginForm';
 import HomeSection from 'components/home/HomeSection';
@@ -37,7 +37,6 @@ export const getServerSideProps = wrapper.getServerSideProps(store => authentica
             throw data.message;
         }
         const { userData } = data;
-        store.dispatch(setUserId(userId));
         store.dispatch(setLoggedIn(true));
         store.dispatch(setUserInfo(userData));
 

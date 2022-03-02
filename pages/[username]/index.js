@@ -1,6 +1,6 @@
 import { authenticate } from "middlewares/authenticate";
 import wrapper from "redux/index";
-import { setUserInfo, setHostInfo, setUserId, setLoggedIn } from "redux/actions/authenticateActions";
+import { setUserInfo, setHostInfo, setLoggedIn } from "redux/actions/authenticateActions";
 import ChatSection from "components/chat/ChatSection";
 
 const Chat = () => {
@@ -45,7 +45,6 @@ export const getServerSideProps = wrapper.getServerSideProps(store => authentica
             throw host.message;
         }
 
-        store.dispatch(setUserId(userId));
         store.dispatch(setUserInfo(user.userData));
         store.dispatch(setLoggedIn(true));
         store.dispatch(setHostInfo(host.userData));

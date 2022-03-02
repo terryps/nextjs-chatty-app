@@ -1,5 +1,5 @@
 import wrapper from "redux/index";
-import { setLoggedIn, setUserId, setUserInfo } from "redux/actions/authenticateActions";
+import { setLoggedIn, setUserInfo } from "redux/actions/authenticateActions";
 import { authenticate } from "middlewares/authenticate";
 import EditForm from "components/forms/EditForm";
 
@@ -35,7 +35,6 @@ export const getServerSideProps = wrapper.getServerSideProps(store => authentica
             throw data.message;
         }
         const { userData } = data;
-        store.dispatch(setUserId(userId));
         store.dispatch(setUserInfo(userData));
         store.dispatch(setLoggedIn(true));
 
