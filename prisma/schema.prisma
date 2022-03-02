@@ -11,10 +11,10 @@ datasource db {
 }
 
 model User {
-  id                Int         @id   @default(autoincrement())
-  username          String      @unique   @db.VarChar(40)
+  id                Int         @id @default(autoincrement())
+  username          String      @unique @db.VarChar(40)
   fullname          String?     @db.VarChar(40)
-  avatarUrl         String?
+  avatarUrl         String      @default("0")   @map("avatar_url")
   about             String?     @db.VarChar(80)
   password          String
   chats             Chat[]
