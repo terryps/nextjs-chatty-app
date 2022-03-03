@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 
                 return res.status(401).json({ message: "Username or password is incorrect."});
             } catch(err) {
-                return res.status(500).json({ message: "Internal Server Error"});
+                return res.status(401).json({ message: "Username or password is incorrect."});
             }
         default:
             res.status(405).end(`Method ${req.method} is not allowed.`);
