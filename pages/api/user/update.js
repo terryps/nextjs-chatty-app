@@ -16,8 +16,7 @@ const handler = authenticate(async (req, res) => {
                 });
                 return res.status(200).json({ message: "Success" });
             } catch(err) {
-                console.log(err.message);
-                return res.status(500).json({ message: "Internal Server Error" });
+                return res.status(500).json({ message: "Failed to update your profile" });
             }
         default:
             res.status(405).end(`Method ${req.method} is not allowed.`);
