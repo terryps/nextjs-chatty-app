@@ -18,13 +18,13 @@ const LoginForm = () => {
                 username: e.target.username.value,
                 password: e.target.password.value,
             }),
-        }).then(response => {
-            if(response.ok) {
-                router.reload();
+        }).then(async response => {
+            const data = await response.json();
+            if(!response.ok) {
+                throw data.message;
             }
-
-            throw response.json();
-        }).catch(err => setErrorMessage(err.message));
+            router.reload();
+        }).catch(err => {setErrorMessage(err)});
     }
 
     return (
