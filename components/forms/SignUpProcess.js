@@ -66,21 +66,9 @@ const SignUpProcess = () => {
                 throw data.message;
             }
             setSignupDone(true);
+            setUsername(e.target.username.value);
         }).catch(err => {
             setErrorMessage(err);
-        });
-
-        fetch("http://localhost:3000/api/accounts/login", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                username: e.target.username.value,
-                password: e.target.password.value,
-            }),
-        }).then(response => {
-            if(response.ok) {
-                setUsername(e.target.username.value);
-            }
         });
     }
 
