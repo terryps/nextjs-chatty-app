@@ -111,7 +111,7 @@ const ChatSection = ({ userInfo, hostInfo, showMessageModal }) => {
                     </a>
                 </Link>
                 <div className="avatar m-wd-64">
-                    <Image src={`/static/avatars/${userInfo.avatarUrl}.png`} width={48} height={48} />
+                    <Image src={`/static/avatars/${hostInfo.avatarUrl}.png`} width={48} height={48} />
                 </div>
                 <div className="flex-col">
                     <h3>{hostInfo.username}</h3>
