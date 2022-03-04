@@ -94,8 +94,65 @@ Project structure
 + `Modal` : 메세지 모달, 친구 추가 모달 등.
 <br>
 
+## Database
+PostgreSQL을 사용했다. 채팅 앱과 같이 사용자 간의 친구 여부, 채팅방 같은 객체들의 관계를 정의하기 위해 객체 관계 데이터베이스를 사용하였다.
+
 ## PrismaClient
+### Problems
+#### Connection issue
+api 요청을 할 때마다 데이터 베이스에 연결이 너무 많아졌다. 요청이 있을 때마다 `new PrismaClient()` 인스턴스가 생성되고 연결 수가 최대치(100)를 초과했기 때문이다.
+
+#### Solution
+PrismaClient 인스턴스를 전역 변수로 선언하여 모듈화한다. 전역 변수에 prisma가 이미 존재하면 이것을 써서 db에서 데이터를 가져올 수 있기 때문에 통신 개수가 증가하지 않는다.
+
+before modified<br>
+`api/accounts/login`
+```js
+import { PrismaClient } from "@prisma/client"
+
+export default async function handler(req, res) {
+    const prisma = new PrismaClient();
+    const users = await prisma.user.findMany({...});
+}
+```
+
+after modified<br>
+`lib/PrismaClient`
+```js
+import { PrismaClient } from "@prisma/client"
+
+let prisma;
+
+if(process.env.NODE_ENV === "production") {
+  prisma = new PrismaClient();
+} else {
+  if(!global.prisma) {
+    global.prisma = new PrismaClient();
+  }
+
+  prisma = global.prisma;
+}
+
+export default prisma;
+```
 <br>
+
+`api/accounts/login`
+
+```js
+import prisma from "lib/PrismaClient"
+
+export default async function handler(req, res) {
+    const users = await prisma.user.findMany({...});
+}
+```
+---
+
+### REF
+[Managing DB connections for Prisma Client JS](https://github.com/prisma/prisma/issues/5007#issuecomment-618433162)
+
+
+---
 
 ## React Redux
 + `actions/actionTypes` : 리듀서의 액션 타입.
