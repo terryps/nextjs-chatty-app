@@ -2,25 +2,28 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 NextJS 프레임워크로 만든 채팅 웹 앱입니다. 채팅 기능 및 회원가입, 로그인, 프로필 편집 그리고 친구 추가가 가능합니다.
 
-### Markup Languages
-+ HTML
-+ CSS
+### Markup Language
++ HTML5 - 리액트의 JSX에서 사용됐다.
+
+### StyleSheet
++ CSS3
++ SCSS (preprocessor)
 
 ### Programming Language
 + Javascript(ES6)
 
 ### Libraries
-+ ReactJS
-+ React Redux
++ ReactJS - 유저 인터페이스를 만들었다.
++ React Redux - 앱의 전역 변수를 관리했다.
 
 ### Framework
-+ NextJS
++ NextJS - pre-rendering을 통해 SEO를 향상시켰다.
 
 ### Database
-+ PostgreSQL
++ PostgreSQL - 앱의 데이터베이스를 구축하는데 쓰였다.
 
 ### ORM
-+ Prisma
++ Prisma - 자바스크립트의 객체로 관계형 데이터베이스인 PostgreSQL의 데이터 테이블에 접근가능하게 하였다.
 
 <br>
 
